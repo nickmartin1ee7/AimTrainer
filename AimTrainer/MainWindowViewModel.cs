@@ -1,21 +1,29 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Linq;
 using System.Timers;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace AimTrainer
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         private readonly Random _rng = new();
-        private readonly Timer _timer = new(10);
+        private readonly Stopwatch _sw = new();
+        private int? _lastRedIndex;
         private string _timerCount;
+        private List<TimeSpan> _reactionTimes = new();
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public ICommand Start { get; set; }
+        public ICommand Stop { get; set; }
         public ICommand RandomizeGrid { get; set; }
         public ICommand CircleClick { get; set; }
 
@@ -35,37 +43,62 @@ namespace AimTrainer
         {
             Start = new RelayCommand(() =>
             {
-                var start = DateTime.Now;
-
-                _timer.Elapsed += (s, e) =>
-                    TimerCount = e.SignalTime.Subtract(start).ToString();
-
-                SetNewRed();
-
-                _timer.Start();
+                TimerCount = string.Empty;
+                StartGame();
             });
 
-            CircleClick = new RelayCommand(() =>
+            Stop = new RelayCommand(StopGame);
+
+            CircleClick = new RelayCommand<object>(_ =>
             {
-                if (!_timer.Enabled) return;
-                _timer.Stop();
-                ResetCellBrushes();
-            });
+                _sw.Stop();
+                _reactionTimes.Add(_sw.Elapsed);
+                TimerCount = $"Average reaction time: {_reactionTimes.Average(x => x.TotalMilliseconds):N0} ms";
+                StartGame();
+            }, canExecute: btn => ((btn as Button)?.Content as Ellipse)?.Fill == Brushes.Red);
 
             RandomizeGrid = new RelayCommand(() =>
             {
-                var size = _rng.Next(4, 16);
+                StopGame();
 
-                if (size % 2 != 0) size++;
+                int size = Cells.Count;
+                int newSize;
+                do
+                {
+                    newSize = GetNewCellSize();
+                    newSize *= newSize;
+                } while (size == newSize);
 
                 Cells.Clear();
 
-                var l = size * size;
-                for (int i = 0; i < l; i++)
+                for (int i = 0; i < newSize; i++)
                 {
                     Cells.Add(Brushes.Transparent);
                 }
             });
+
+            int GetNewCellSize()
+            {
+                int size = _rng.Next(4, 16);
+                if (size % 2 != 0) size++;
+                return size;
+            }
+        }
+
+        private void StartGame()
+        {
+            ResetCellBrushes();
+            SetNewRed();
+            _sw.Restart();
+        }
+
+        private void StopGame()
+        {
+            if (!_sw.IsRunning) return;
+            _sw.Stop();
+            _reactionTimes.Clear();
+            _timerCount = string.Empty;
+            ResetCellBrushes();
         }
 
         private void ResetCellBrushes()
@@ -78,9 +111,21 @@ namespace AimTrainer
 
         private void SetNewRed()
         {
-            var rngIndex = _rng.Next(Cells.Count);
-            Cells.RemoveAt(rngIndex);
-            Cells.Insert(rngIndex, Brushes.Red);
+            while (true)
+            {
+                var rngIndex = _rng.Next(Cells.Count);
+
+                if (_lastRedIndex == rngIndex)
+                {
+                    continue;
+                }
+                else
+                {
+                    Cells[rngIndex] = Brushes.Red;
+                    _lastRedIndex = rngIndex;
+                    break;
+                }
+            }
         }
     }
 }

@@ -20,6 +20,7 @@
                 <ToolBarTray DockPanel.Dock="Top">
                     <ToolBar>
                         <Button Padding="5" BorderBrush="Black" Content="Start" Command="{Binding Start}"/>
+                        <Button Padding="5" BorderBrush="Black" Content="Stop" Command="{Binding Stop}"/>
                         <Button Padding="5" BorderBrush="Black" Content="Randomize Grid Size" Command="{Binding RandomizeGrid}"/>
                     </ToolBar>
                 </ToolBarTray>
@@ -34,9 +35,14 @@
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
             <DataTemplate>
-                <Button Name="ClickableButton" Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.CircleClick}">
-                        <Ellipse Width="{Binding Path=ActualWidth, ElementName=ClickableButton}" Height="{Binding Path=ActualHeight, ElementName=ClickableButton}" Fill="{Binding}"/>
-                </Button>
+                <Button Name="ClickableButton" Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.CircleClick}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource Self}}">
+                        <Ellipse VerticalAlignment="Center"
+                                 HorizontalAlignment="Center"
+                                 Width="{Binding Path=ActualWidth, ElementName=ClickableButton}"
+                                 Height="{Binding Path=ActualHeight, ElementName=ClickableButton}"
+                                 Fill="{Binding}" />
+                    </Button>
             </DataTemplate>
         </ItemsControl.ItemTemplate>
     </ItemsControl>
