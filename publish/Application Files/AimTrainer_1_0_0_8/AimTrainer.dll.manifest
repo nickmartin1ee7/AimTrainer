@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="AimTrainer.exe" version="1.0.0.8" publicKeyToken="ddbe173f232f7887" language="neutral" processorArchitecture="msil" type="win32" />
+  <description asmv2:iconFile="bullseye.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="Launcher" version="5.0.0.0" language="neutral" processorArchitecture="msil" />
+    <commandLine file="Launcher.exe" parameters="" />
+  </entryPoint>
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <!--
+          UAC Manifest Options
+          If you want to change the Windows User Account Control level replace the
+          requestedExecutionLevel node with one of the following.
+
+        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+
+         If you want to utilize File and Registry Virtualization for backward
+         compatibility then delete the requestedExecutionLevel node.
+    -->
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="5" minorVersion="1" buildNumber="2600" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Launcher.exe" size="15280">
+      <assemblyIdentity name="Launcher" version="5.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>v14SvGrQWkz6AP2j7CXMfg1Ig3+vvqEXtOAdsoEzlRI=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="AimTrainer.exe" size="173976">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>aEIZUrKvS6RCZSf0lpz7LzgopdZOybYNk8+77jZG2u8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="bullseye.ico" size="4158">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>w2yNd3QXHaSuCKvOmqulYIT2naIbGrHFtECeXBtlMrc=</dsig:DigestValue>
+    </hash>
+  </file>
+<publisherIdentity name="CN=SHOEBOX\doort" issuerKeyHash="8ccf0511d03d022521ddd72977dfacc3c1c33257" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>/VKjiur8+UPCCLZi1ZqUuuhCav8r4W5hi63u9iatEwU=</DigestValue></Reference></SignedInfo><SignatureValue>UPDl8mWIiqf46j7HXw6sOzLW1SE1XEmyjVQ7RQKG1vjI1KTjviB6hG2R7VPRm0tL2qjPV6uP5uq/U3rDWKg8rTY0wc00/le4yq7XNSlmu0BK7aCFxbFA1IvdbD7l0Whk/mHpPXiIfpWwJH6/7b+b9RwHAs/Ab8DFDa2yaRb2/54=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>ltm1GpZ69LIg7ORqXzV+Yp/H6lZdtlGBhSslzOsKusfJrzYz8JGvTU+zO47RAPE3YCaMMtd1BJHg5ImP+GpT86cLvMP3WDB882D9rrKpya3MZ48jPO9PFh7ODMLcc1fQoALE+e7kwuYAJBj5zQUPT+yLaY4LY317kuz2Oj2Bfkk=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="0513ad26f6eead8b616ee12bff6a42e8ba949ad562b608c243f9fcea8aa352fd" Description="" Url=""><as:assemblyIdentity name="AimTrainer.exe" version="1.0.0.8" publicKeyToken="ddbe173f232f7887" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=SHOEBOX\doort</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>V49bhd5O8/2T0daAlraGz0d7iZIb9L7eAP7mJcAJMDQ=</DigestValue></Reference></SignedInfo><SignatureValue>XaESfnKaHoHRuDVsv+DcbsLTPaL5OZR9a/TIoP1lqTSPBjGcJx2ffRZczjKqV64735IJL2t1D7w+Ip+CXiAS6HFQafM447ZPqeu+RhR0Js83AtzOP94B+40L52EKd57HPZPnh5tisixPtPO8D6rdeI3G4rngBPWF7nzdVgwswcQ=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>ltm1GpZ69LIg7ORqXzV+Yp/H6lZdtlGBhSslzOsKusfJrzYz8JGvTU+zO47RAPE3YCaMMtd1BJHg5ImP+GpT86cLvMP3WDB882D9rrKpya3MZ48jPO9PFh7ODMLcc1fQoALE+e7kwuYAJBj5zQUPT+yLaY4LY317kuz2Oj2Bfkk=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIBzTCCATagAwIBAgIQNz924z7hlYRAPGbacJU4mDANBgkqhkiG9w0BAQsFADAlMSMwIQYDVQQDHhoAUwBIAE8ARQBCAE8AWABcAGQAbwBvAHIAdDAeFw0yMDEyMjgxODM3MDJaFw0yMTEyMjkwMDM3MDJaMCUxIzAhBgNVBAMeGgBTAEgATwBFAEIATwBYAFwAZABvAG8AcgB0MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCW2bUalnr0siDs5GpfNX5in8fqVl22UYGFKyXM6wq6x8mvNjPwka9NT7M7jtEA8TdgJowy13UEkeDkiY/4alPzpwu8w/dYMHzzYP2usqnJrcxnjyM8708WHs4MwtxzV9CgAsT57uTC5gAkGPnNBQ9P7ItpjgtjfXuS7PY6PYF+SQIDAQABMA0GCSqGSIb3DQEBCwUAA4GBAHPhNhUE5rdn2HplMdXMA4GMAZU6Hk6XESngTq4ckyW8+STRZqNYwHF3HNIc2tLUj7pNYpPKcbQO96TOYG+ErJEzwdhUFUPfhm+/DB/cO+2/kZwtQgAb/pvFUwyGdZKXHy/a5CBT6YAaRu0c/IF2WicgCTaUy60o0Hyz2wNdvVbu</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>
