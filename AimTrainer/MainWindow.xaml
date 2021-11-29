@@ -40,7 +40,7 @@
         <ItemsControl.ItemTemplate>
             <DataTemplate>
                 <Button Name="ClickableButton" Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.CircleClick}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource Self}}">
+                        CommandParameter="{Binding}">
                         <Ellipse VerticalAlignment="Center"
                                  HorizontalAlignment="Center"
                                  Width="{Binding Path=ActualWidth, ElementName=ClickableButton}"

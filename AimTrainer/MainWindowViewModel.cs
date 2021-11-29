@@ -4,11 +4,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Timers;
-using System.Windows.Controls;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace AimTrainer
 {
@@ -17,7 +15,7 @@ namespace AimTrainer
         private readonly Random _rng = new();
         private readonly Stopwatch _sw = new();
         private int? _lastRedIndex;
-        private string _timerCount;
+        private string? _timerCount;
         private int _totalClicks;
         private List<TimeSpan> _reactionTimes = new();
 
@@ -52,64 +50,68 @@ namespace AimTrainer
 
         public MainWindowViewModel()
         {
-            Start = new RelayCommand(() =>
-            {
-                TimerCount = string.Empty;
-                StartGame();
-            });
-
+            Start = new RelayCommand(StartGame);
             Stop = new RelayCommand(StopGame);
+            RandomizeGrid = new RelayCommand(RandomizeGameGrid);
+            CircleClick = new RelayCommand<object>(_ => OnCircleClick(), fill => fill == Brushes.Red);
+        }
 
-            CircleClick = new RelayCommand<object>(_ =>
-            {
-                TotalClicks++;
-                _sw.Stop();
-                _reactionTimes.Add(_sw.Elapsed);
-                TimerCount = $"Average reaction time: {_reactionTimes.Average(x => x.TotalMilliseconds):N0} ms";
-                StartGame();
-            }, canExecute: btn => ((btn as Button)?.Content as Ellipse)?.Fill == Brushes.Red);
+        private void OnCircleClick()
+        {
+            TotalClicks++;
+            _reactionTimes.Add(_sw.Elapsed);
+            TimerCount = $"Average reaction time: {_reactionTimes.Average(x => x.TotalMilliseconds):N0} ms";
+            StartNewRound();
+        }
 
-            RandomizeGrid = new RelayCommand(() =>
-            {
-                StopGame();
-
-                int size = Cells.Count;
-                int newSize;
-                do
-                {
-                    newSize = GetNewCellSize();
-                    newSize *= newSize;
-                } while (size == newSize);
-
-                Cells.Clear();
-
-                for (int i = 0; i < newSize; i++)
-                {
-                    Cells.Add(Brushes.Transparent);
-                }
-            });
-
+        private void RandomizeGameGrid()
+        {
             int GetNewCellSize()
             {
                 int size = _rng.Next(4, 16);
                 if (size % 2 != 0) size++;
                 return size;
             }
+
+            StopGame();
+
+            int size = Cells.Count;
+            int newSize;
+            do
+            {
+                newSize = GetNewCellSize();
+                newSize *= newSize;
+            } while (size == newSize);
+
+            Cells.Clear();
+
+            for (int i = 0; i < newSize; i++)
+            {
+                Cells.Add(Brushes.Transparent);
+            }
         }
 
         private void StartGame()
         {
             if (_sw.IsRunning)
-                TotalClicks = 0;
+                StopGame();
 
+            TotalClicks = 0;
+            TimerCount = string.Empty;
+
+            StartNewRound();
+        }
+
+        private void StartNewRound()
+        {
             ResetCellBrushes();
             SetNewRed();
-            _sw.Restart();
         }
 
         private void StopGame()
         {
-            if (!_sw.IsRunning) return;
+            if (!_sw.IsRunning)
+                return;
 
             _sw.Stop();
             _totalClicks = 0;
