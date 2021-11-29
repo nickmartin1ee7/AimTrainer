@@ -53,11 +53,15 @@ namespace AimTrainer
             Start = new RelayCommand(StartGame);
             Stop = new RelayCommand(StopGame);
             RandomizeGrid = new RelayCommand(RandomizeGameGrid);
-            CircleClick = new RelayCommand<object>(_ => OnCircleClick(), fill => fill == Brushes.Red);
+            CircleClick = new RelayCommand<object>(fill => OnCircleClick(fill));
         }
 
-        private void OnCircleClick()
+        private void OnCircleClick(object fillBrush)
         {
+            if (fillBrush != Brushes.Red)
+                return;
+
+            _sw.Stop();
             TotalClicks++;
             _reactionTimes.Add(_sw.Elapsed);
             TimerCount = $"Average reaction time: {_reactionTimes.Average(x => x.TotalMilliseconds):N0} ms";
@@ -105,6 +109,7 @@ namespace AimTrainer
         private void StartNewRound()
         {
             ResetCellBrushes();
+            _sw.Restart();
             SetNewRed();
         }
 
