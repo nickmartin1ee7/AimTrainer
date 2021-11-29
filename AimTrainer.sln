@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AimTrainer", "AimTrainer\AimTrainer.csproj", "{0AE556B2-E998-46C5-8300-E710A4A1CFD5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0AE556B2-E998-46C5-8300-E710A4A1CFD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AE556B2-E998-46C5-8300-E710A4A1CFD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AE556B2-E998-46C5-8300-E710A4A1CFD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AE556B2-E998-46C5-8300-E710A4A1CFD5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0F0A7767-6EBD-4221-9130-5191A583FFAD}
+	EndGlobalSection
+EndGlobal
