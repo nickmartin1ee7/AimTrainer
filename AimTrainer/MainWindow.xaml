@@ -4,9 +4,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:aimtrainer="clr-namespace:AimTrainer"
+        d:DataContext="{d:DesignInstance Type=aimtrainer:MainWindowViewModel}"
         mc:Ignorable="d"
         Title="Practice Aim - Reaction Time Trainer" Height="800" Width="800">
     <Grid>
+        <Grid.Resources>
+            <Style x:Key="PercentLabel" TargetType="Label">
+                <Setter Property="ContentStringFormat" Value="p0"/>
+            </Style>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
@@ -14,7 +21,9 @@
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
@@ -27,9 +36,11 @@
                     </ToolBar>
                 </ToolBarTray>
             </DockPanel>
-            <Label Grid.Column="1" HorizontalAlignment="Right" Content="Clicks:"/>
-            <Label Grid.Column="2" HorizontalAlignment="Left" Content="{Binding TotalClicks}"/>
-            <Label Grid.Column="3" HorizontalAlignment="Center" Content="{Binding TimerCount}"/>
+            <Label Grid.Column="1" HorizontalAlignment="Center" Content="Accuracy:"/>
+            <Label Grid.Column="2" HorizontalAlignment="Center" Content="{Binding Accuracy}" Style="{StaticResource PercentLabel}"/>
+            <Label Grid.Column="3" HorizontalAlignment="Center" Content="Clicks:"/>
+            <Label Grid.Column="4" HorizontalAlignment="Center" Content="{Binding TotalClicks}"/>
+            <Label Grid.Column="5" HorizontalAlignment="Right" Content="{Binding TimerCount}"/>
         </Grid>
         <ItemsControl Grid.Row="1" ItemsSource="{Binding Cells}">
         <ItemsControl.ItemsPanel>

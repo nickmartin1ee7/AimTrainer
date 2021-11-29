@@ -17,6 +17,8 @@ namespace AimTrainer
         private int? _lastRedIndex;
         private string? _timerCount;
         private int _totalClicks;
+        private double _accuracy;
+        private int _correctClicks;
         private List<TimeSpan> _reactionTimes = new();
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -48,6 +50,16 @@ namespace AimTrainer
             }
         }
 
+        public double Accuracy
+        {
+            get { return _accuracy; }
+            set
+            {
+                _accuracy = value;
+                PropertyChanged(this, new PropertyChangedEventArgs(nameof(Accuracy)));
+            }
+        }
+
         public MainWindowViewModel()
         {
             Start = new RelayCommand(StartGame);
@@ -58,11 +70,23 @@ namespace AimTrainer
 
         private void OnCircleClick(object fillBrush)
         {
-            if (fillBrush != Brushes.Red)
+            if (!_sw.IsRunning)
                 return;
 
-            _sw.Stop();
             TotalClicks++;
+
+            if (fillBrush != Brushes.Red)
+            {
+                Accuracy = _correctClicks / (double)TotalClicks;
+                return;
+            }
+            else
+            {
+                _correctClicks++;
+                Accuracy = _correctClicks / (double)TotalClicks;
+            }
+
+            _sw.Stop();
             _reactionTimes.Add(_sw.Elapsed);
             TimerCount = $"Average reaction time: {_reactionTimes.Average(x => x.TotalMilliseconds):N0} ms";
             StartNewRound();
@@ -101,6 +125,8 @@ namespace AimTrainer
                 StopGame();
 
             TotalClicks = 0;
+            _correctClicks = 0;
+            Accuracy = 0;
             TimerCount = string.Empty;
 
             StartNewRound();
@@ -120,6 +146,7 @@ namespace AimTrainer
 
             _sw.Stop();
             _totalClicks = 0;
+            _correctClicks = 0;
             _reactionTimes.Clear();
             _timerCount = string.Empty;
             ResetCellBrushes();
