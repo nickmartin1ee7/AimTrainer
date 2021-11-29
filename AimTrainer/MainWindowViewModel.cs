@@ -1,91 +1,86 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
+using System.ComponentModel;
+using System.Timers;
 using System.Windows.Input;
 using System.Windows.Media;
 
 namespace AimTrainer
 {
-    public class MainWindowViewModel
+    public class MainWindowViewModel : INotifyPropertyChanged
     {
-        private readonly MainWindow _window;
+        private readonly Random _rng = new();
+        private readonly Timer _timer = new(10);
+        private string _timerCount;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public ICommand Start { get; set; }
         public ICommand RandomizeGrid { get; set; }
+        public ICommand CircleClick { get; set; }
 
         public ObservableCollection<Brush> Cells { get; set; } = new ObservableCollection<Brush>();
 
-        public MainWindowViewModel(MainWindow window)
+        public string TimerCount
         {
-            _window = window;
-            Start = new StartCommand(this, window);
-            RandomizeGrid = new RandomizeGridCommand(this, window);
-        }
-
-        private class StartCommand : ICommand
-        {
-            private readonly Random _rng = new Random();
-            private readonly MainWindowViewModel _vm;
-            private readonly MainWindow _window;
-
-            public StartCommand(MainWindowViewModel mainWindowViewModel, MainWindow window)
+            get { return _timerCount; }
+            set
             {
-                _vm = mainWindowViewModel;
-                _window = window;
-            }
-
-            public event EventHandler? CanExecuteChanged;
-
-            public bool CanExecute(object? parameter)
-            {
-                return true;
-            }
-
-            public void Execute(object? parameter)
-            {
-                throw new NotImplementedException();
+                _timerCount = value;
+                PropertyChanged(this, new PropertyChangedEventArgs(nameof(TimerCount)));
             }
         }
 
-        private class RandomizeGridCommand : ICommand
+        public MainWindowViewModel()
         {
-            private readonly Random _rng = new Random();
-            private readonly MainWindowViewModel _vm;
-            private readonly MainWindow _window;
-
-            public RandomizeGridCommand(MainWindowViewModel mainWindowViewModel, MainWindow window)
+            Start = new RelayCommand(() =>
             {
-                _vm = mainWindowViewModel;
-                _window = window;
-            }
+                var start = DateTime.Now;
 
-            public event EventHandler? CanExecuteChanged;
+                _timer.Elapsed += (s, e) =>
+                    TimerCount = e.SignalTime.Subtract(start).ToString();
 
-            public bool CanExecute(object? parameter)
+                SetNewRed();
+
+                _timer.Start();
+            });
+
+            CircleClick = new RelayCommand(() =>
             {
-                return true;
-            }
+                if (!_timer.Enabled) return;
+                _timer.Stop();
+                ResetCellBrushes();
+            });
 
-            public void Execute(object? parameter)
+            RandomizeGrid = new RelayCommand(() =>
             {
                 var size = _rng.Next(4, 16);
 
                 if (size % 2 != 0) size++;
 
-                _vm.Cells.Clear();
+                Cells.Clear();
 
                 var l = size * size;
                 for (int i = 0; i < l; i++)
                 {
-                    _vm.Cells.Add(Brushes.Transparent);
+                    Cells.Add(Brushes.Transparent);
                 }
+            });
+        }
+
+        private void ResetCellBrushes()
+        {
+            for (int i = 0; i < Cells.Count; i++)
+            {
+                Cells[i] = Brushes.Transparent;
             }
+        }
+
+        private void SetNewRed()
+        {
+            var rngIndex = _rng.Next(Cells.Count);
+            Cells.RemoveAt(rngIndex);
+            Cells.Insert(rngIndex, Brushes.Red);
         }
     }
 }

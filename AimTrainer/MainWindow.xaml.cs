@@ -1,9 +1,4 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Shapes;
+﻿using System.Windows;
 
 namespace AimTrainer
 {
@@ -12,12 +7,11 @@ namespace AimTrainer
     /// </summary>
     public partial class MainWindow : Window
     {
-        private MainWindowViewModel _vm;
+        private MainWindowViewModel _vm = new();
 
         public MainWindow()
         {
             InitializeComponent();
-            _vm = new(this);
             DataContext = _vm;
             _vm.RandomizeGrid.Execute(null);
         }

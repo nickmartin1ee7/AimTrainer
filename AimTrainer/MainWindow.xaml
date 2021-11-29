@@ -5,32 +5,38 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        d:DataContext="MainWindowViewModel"
-        Title="Practice Aim - Reaction time trainer" Height="800" Width="800">
+        Title="Practice Aim - Reaction Time Trainer" Height="800" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" LastChildFill="False">
-            <ToolBarTray DockPanel.Dock="Top">
-                <ToolBar>
-                    <Button Content="Start" Command="{Binding Start}"/>
-                    <Button Content="Randomize Grid Size" Command="{Binding RandomizeGrid}"/>
-                </ToolBar>
-            </ToolBarTray>
-        </DockPanel>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <DockPanel Grid.Column="0"  LastChildFill="False">
+                <ToolBarTray DockPanel.Dock="Top">
+                    <ToolBar>
+                        <Button Padding="5" BorderBrush="Black" Content="Start" Command="{Binding Start}"/>
+                        <Button Padding="5" BorderBrush="Black" Content="Randomize Grid Size" Command="{Binding RandomizeGrid}"/>
+                    </ToolBar>
+                </ToolBarTray>
+            </DockPanel>
+            <Label Grid.Column="1" HorizontalAlignment="Right" Content="{Binding TimerCount}"/>
+        </Grid>
         <ItemsControl Grid.Row="1" ItemsSource="{Binding Cells}">
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
-                    <UniformGrid IsItemsHost="True" />
-                </ItemsPanelTemplate>
+                <UniformGrid IsItemsHost="True" />
+            </ItemsPanelTemplate>
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
             <DataTemplate>
-                <Border BorderThickness="2" BorderBrush="Black" Padding="10">
-                    <Ellipse Width="40" Height="40" Fill="{Binding}"/>
-                </Border>
+                <Button Name="ClickableButton" Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.CircleClick}">
+                        <Ellipse Width="{Binding Path=ActualWidth, ElementName=ClickableButton}" Height="{Binding Path=ActualHeight, ElementName=ClickableButton}" Fill="{Binding}"/>
+                </Button>
             </DataTemplate>
         </ItemsControl.ItemTemplate>
     </ItemsControl>
