@@ -99,6 +99,9 @@ namespace AimTrainer
 
         private void StartGame()
         {
+            if (_sw.IsRunning)
+                TotalClicks = 0;
+
             ResetCellBrushes();
             SetNewRed();
             _sw.Restart();
@@ -107,7 +110,9 @@ namespace AimTrainer
         private void StopGame()
         {
             if (!_sw.IsRunning) return;
+
             _sw.Stop();
+            _totalClicks = 0;
             _reactionTimes.Clear();
             _timerCount = string.Empty;
             ResetCellBrushes();
