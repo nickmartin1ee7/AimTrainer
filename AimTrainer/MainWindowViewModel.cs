@@ -18,6 +18,7 @@ namespace AimTrainer
         private readonly Stopwatch _sw = new();
         private int? _lastRedIndex;
         private string _timerCount;
+        private int _totalClicks;
         private List<TimeSpan> _reactionTimes = new();
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -39,6 +40,16 @@ namespace AimTrainer
             }
         }
 
+        public int TotalClicks
+        {
+            get { return _totalClicks; }
+            set
+            {
+                _totalClicks = value;
+                PropertyChanged(this, new PropertyChangedEventArgs(nameof(TotalClicks)));
+            }
+        }
+
         public MainWindowViewModel()
         {
             Start = new RelayCommand(() =>
@@ -51,6 +62,7 @@ namespace AimTrainer
 
             CircleClick = new RelayCommand<object>(_ =>
             {
+                TotalClicks++;
                 _sw.Stop();
                 _reactionTimes.Add(_sw.Elapsed);
                 TimerCount = $"Average reaction time: {_reactionTimes.Average(x => x.TotalMilliseconds):N0} ms";
