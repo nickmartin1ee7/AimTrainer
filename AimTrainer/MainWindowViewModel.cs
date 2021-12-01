@@ -28,7 +28,7 @@ namespace AimTrainer
 
         public ICommand Start { get; set; }
         public ICommand Stop { get; set; }
-        public ICommand RandomizeGrid { get; set; }
+        public ICommand NextGrid { get; set; }
         public ICommand CircleClick { get; set; }
 
         public ObservableCollection<Brush> Cells { get; set; } = new ObservableCollection<Brush>();
@@ -67,7 +67,7 @@ namespace AimTrainer
         {
             Start = new RelayCommand(StartGame);
             Stop = new RelayCommand(StopGame);
-            RandomizeGrid = new RelayCommand(RandomizeGameGrid);
+            NextGrid = new RelayCommand(NextGameGrid);
             CircleClick = new RelayCommand<object>(fill => OnCircleClick(fill));
 
 
@@ -108,30 +108,38 @@ namespace AimTrainer
             StartNewRound();
         }
 
-        private void RandomizeGameGrid()
+        int x = 2; // 2x2
+        private void NextGameGrid()
         {
-            int GetNewCellSize()
-            {
-                int size = _rng.Next(4, 16);
-                if (size % 2 != 0) size++;
-                return size;
-            }
-
             StopGame();
 
-            int size = Cells.Count;
-            int newSize;
-            do
+            if (Cells.Count == 0)
             {
-                newSize = GetNewCellSize();
-                newSize *= newSize;
-            } while (size == newSize);
+                PaintCells(x * 2);
+                return;
+            }
 
-            Cells.Clear();
+            int newSize = x * x;
 
-            for (int i = 0; i < newSize; i++)
+            if (x > 32)
             {
-                Cells.Add(Brushes.Transparent);
+                x = 2;
+                PaintCells(x * 2);
+                return;
+            }
+
+            x++;
+
+            PaintCells(newSize);
+
+            void PaintCells(int newSize)
+            {
+                Cells.Clear();
+
+                for (int i = 0; i < newSize; i++)
+                {
+                    Cells.Add(Brushes.Transparent);
+                }
             }
         }
 

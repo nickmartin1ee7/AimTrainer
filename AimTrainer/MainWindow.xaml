@@ -32,7 +32,7 @@
                     <ToolBar>
                         <Button Padding="5" BorderBrush="Black" Content="Start" Command="{Binding Start}"/>
                         <Button Padding="5" BorderBrush="Black" Content="Stop" Command="{Binding Stop}"/>
-                        <Button Padding="5" BorderBrush="Black" Content="Randomize Grid Size" Command="{Binding RandomizeGrid}"/>
+                        <Button Padding="5" BorderBrush="Black" Content="Cycle Grid Size" Command="{Binding NextGrid}"/>
                     </ToolBar>
                 </ToolBarTray>
             </DockPanel>

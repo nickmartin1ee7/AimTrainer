@@ -13,7 +13,7 @@ namespace AimTrainer
         {
             InitializeComponent();
             DataContext = _vm;
-            _vm.RandomizeGrid.Execute(null);
+            _vm.NextGrid.Execute(null);
         }
     }
 }
