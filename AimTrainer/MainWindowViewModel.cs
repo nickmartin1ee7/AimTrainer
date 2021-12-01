@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Windows;
+using System.Media;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -14,6 +15,8 @@ namespace AimTrainer
     {
         private readonly Random _rng = new();
         private readonly Stopwatch _sw = new();
+        private readonly SoundPlayer _clickRedSP;
+        private readonly SoundPlayer _clickMenuSP;
         private int? _lastRedIndex;
         private string? _timerCount;
         private int _totalClicks;
@@ -66,6 +69,18 @@ namespace AimTrainer
             Stop = new RelayCommand(StopGame);
             RandomizeGrid = new RelayCommand(RandomizeGameGrid);
             CircleClick = new RelayCommand<object>(fill => OnCircleClick(fill));
+
+
+            _clickMenuSP = new(GetResourceStreamByName("clickMenu.wav"));
+            _clickRedSP = new(GetResourceStreamByName("clickRed.wav"));
+        }
+
+        private Stream GetResourceStreamByName(string name)
+        {
+            var asm = GetType().Assembly;
+            var resourceNames = asm.GetManifestResourceNames();
+            var gnomeResName = resourceNames.First(r => r.Contains(name));
+            return asm.GetManifestResourceStream(gnomeResName);
         }
 
         private void OnCircleClick(object fillBrush)
@@ -82,6 +97,7 @@ namespace AimTrainer
             }
             else
             {
+                _clickRedSP.Play();
                 _correctClicks++;
                 Accuracy = _correctClicks / (double)TotalClicks;
             }
@@ -121,6 +137,8 @@ namespace AimTrainer
 
         private void StartGame()
         {
+            _clickMenuSP.Play();
+            
             if (_sw.IsRunning)
                 StopGame();
 
@@ -141,6 +159,8 @@ namespace AimTrainer
 
         private void StopGame()
         {
+            _clickMenuSP.Play();
+
             if (!_sw.IsRunning)
                 return;
 

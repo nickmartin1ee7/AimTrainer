@@ -9,6 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="clickMenu.wav" />
+    <None Remove="clickred.wav" />
     <None Remove="Properties\PublishProfiles\ClickOnceProfile.pubxml" />
   </ItemGroup>
 
@@ -16,6 +18,11 @@
     <Content Include="bullseye.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="clickRed.wav" />
+    <EmbeddedResource Include="clickMenu.wav" />
   </ItemGroup>
 
   <ItemGroup>
