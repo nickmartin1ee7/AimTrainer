@@ -113,24 +113,15 @@ namespace AimTrainer
         {
             StopGame();
 
-            if (Cells.Count == 0)
+            if (x > 32)
             {
-                PaintCells(x * 2);
-                return;
+                x = 2;
             }
 
             int newSize = x * x;
 
-            if (x > 32)
-            {
-                x = 2;
-                PaintCells(x * 2);
-                return;
-            }
-
-            x++;
-
             PaintCells(newSize);
+            x++;
 
             void PaintCells(int newSize)
             {
